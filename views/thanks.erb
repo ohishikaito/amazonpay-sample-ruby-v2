@@ -25,6 +25,8 @@
 <div class="container">
 
     <div class="row">
+    <%= response %>
+    <%= response['chargeId'] %>
 
         <!-- Blog Entries Column -->
         <div class="col-md-8">
@@ -34,9 +36,67 @@
             ※ こちらはAmazon Pay V2のデモサイトのため、課金および実際の発送はございません。<br>
             <a href="/cart">カートページに戻る</a><br>
         </div>
+
+        <div>
+            <a id="refundButton" href="#" class="btn btn-info btn-lg btn-block">
+                返　金
+            </a>
+
+            <a id="verifyButton" href="#" class="btn btn-info btn-lg btn-block">
+                かくにいいいいいいいん
+            </a>
+        </div>
     </div>
 
 </div>
+
+<script type="text/javascript" src="https://static-fe.payments-amazon.com/checkout.js"></script>
+<script type="text/javascript" charset="utf-8">
+    //-------------
+    // 返金
+    //-------------
+    document.getElementById("refundButton").addEventListener('click', (e) => {
+        $.ajax({
+            type: 'POST',
+            url: '/refunds',
+            data: {'charge_id': '<%= response['chargeId'] %>'}
+        })
+        .then(
+            function(response, error) { //success
+                console.log('response',response)
+                console.log('error',error)
+            },
+            // errorって引数取れる？
+            // function() { //failure
+            function(error, res) { //failure
+                window.alert('error')
+                console.log('error', error)
+                console.log('res', res)
+            }
+        );
+    });
+
+    //-------------
+    // 返金の確認
+    //-------------
+    document.getElementById("verifyButton").addEventListener('click', (e) => {
+        $.ajax({
+            type: 'GET',
+            url: '/verify',
+            data: {'refund_id': '<%= response['refund_id'] ? response['refund_id'] : '' %>'}
+        })
+        .then(
+            function(response, error) { //success
+                console.log('response',response)
+                console.log('error',error)
+            },
+            function(error, res) { //failure
+                console.log('error', error)
+            }
+        );
+    });
+
+</script>
 
 <!-- /.container -->
 </body>

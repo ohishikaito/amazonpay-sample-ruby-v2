@@ -17,14 +17,14 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-    
+
 </head>
 <body data-gr-c-s-loaded="true">
 <div id="white_cover" style="width:100%; height:100vh; background-color:#fff; position:relative; z-index:1000; display:none;"></div>
 
 <div class="container">
     <div class="row">
-
+        <%= payload %>
         <div class="col-md-8">
 
             <div class="card mb-4">
@@ -44,12 +44,13 @@
                         <tr>
                             <td><img class="confirmation-item" src="/static/sample/img/echoshow10.jpeg"></td>
                             <td class="text-right">Echo Show 10 (エコーショー10)</td>
-                            <td class="text-right">￥29,980</td>
+                            <%# <td class="text-right">￥29,980</td> %>
+                            <td class="text-right">￥45,451,919</td>
                             <td class="text-right">1</td>
                         </tr>
                         </tbody>
                     </table>
-                    <div id="AmazonPayButton" style="text-align:center"></div>
+                    <div id="AmazonPayButton"></div>
                 </div>
             </div>
         </div>
@@ -58,7 +59,7 @@
 
 <script src="https://static-fe.payments-amazon.com/checkout.js"></script>
 <script type="text/javascript">
-    amazon.Pay.renderButton('#AmazonPayButton', {
+    const option = {
         merchantId: '<%= merchant_id %>',
         ledgerCurrency: 'JPY', // Amazon Pay account ledger currency
         sandbox: true, // dev environment
@@ -69,9 +70,10 @@
         createCheckoutSessionConfig: {
             payloadJSON: '<%= payload %>', // string generated in step 2
             signature: '<%= signature %>', // signature generated in step 3
-            publicKeyId: '<%= public_key_id %>' 
+            publicKeyId: '<%= public_key_id %>'
         }
-    });
+    }
+    amazon.Pay.renderButton('#AmazonPayButton', option);
 </script>
 
 </body>

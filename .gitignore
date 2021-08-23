@@ -1,6 +1,9 @@
 keys/keyinfo.rb
 keys/privateKey.pem
 
+# add
+keys/AmazonPay_SANDBOX-AGVIE7D65Q4KWICXDGTGYZXG.pem
+
 # others
 *.swp
 !.gitkeep
